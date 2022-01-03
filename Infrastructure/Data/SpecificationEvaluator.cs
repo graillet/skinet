@@ -16,6 +16,21 @@ namespace Infrastructure.Data
                 query = query.Where(spec.Citeria);
             }
 
+            if (spec.OrderBy != null)
+            {
+                query = query.OrderBy(spec.OrderBy);
+            }
+
+            if (spec.OrderByDescendig != null)
+            {
+                query = query.OrderByDescending(spec.OrderByDescendig);
+            }
+
+            if (spec.IsPagingEnabled)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
+            
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query;
